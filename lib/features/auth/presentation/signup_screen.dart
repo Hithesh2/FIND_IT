@@ -39,31 +39,34 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: AppColors.blueColor,
+      backgroundColor: AppColors.bakcgroundGreyColor,
       body: SafeArea(
         child: Column(
           children: [
-            // Header Section with Logo
             Container(
-              height: size.height * 0.25,
+              height: size.height * 0.27,
               width: double.infinity,
-              color: AppColors.blueColor,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [AppColors.blueColor, Color(0xFF5147E8)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(34),
+                  bottomRight: Radius.circular(34),
+                ),
+              ),
               child: Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // Logo with magnifying glass
-                    Image.asset(
-                      Constants.logo,
-                      width: 100,
-                      height: 100,
-                      color: AppColors.whiteColor,
-                    ),
-                  ],
+                child: Image.asset(
+                  Constants.logo,
+                  width: 150,
+                  height: 62,
+                  fit: BoxFit.contain,
+                  color: AppColors.whiteColor,
                 ),
               ),
             ),
-            // White Content Panel
             Expanded(
               child: Container(
                 width: double.infinity,
@@ -222,38 +225,27 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                                                 .trim(),
                                           );
 
-                                      if (res != null) {
-                                        if (mounted) {
-                                          ScaffoldMessenger.of(
-                                            context,
-                                          ).showSnackBar(
-                                            SnackBar(content: Text(res)),
-                                          );
-                                        }
-                                      } else {
-                                        if (mounted) {
-                                          ScaffoldMessenger.of(
-                                            context,
-                                          ).showSnackBar(
-                                            const SnackBar(
-                                              content: Text(
-                                                'Signup successful!',
-                                              ),
-                                            ),
-                                          );
-                                          // Navigate to login or home
-                                          Navigator.of(context).pushReplacement(
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const LoginPage(),
-                                            ),
-                                          );
-                                        }
+                                      if (!context.mounted) return;
+
+                                      if (res == null) {
+                                        Navigator.of(context).pushReplacement(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const LoginPage(),
+                                          ),
+                                        );
+                                        return;
                                       }
+
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
+                                        SnackBar(content: Text(res)),
+                                      );
                                     }
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.black,
+                                    backgroundColor: AppColors.blueColor,
                                     foregroundColor: AppColors.whiteColor,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(12),
@@ -329,16 +321,16 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
       validator: validator,
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: const TextStyle(color: Colors.grey),
+        hintStyle: TextStyle(color: Colors.grey.shade500),
         filled: true,
-        fillColor: AppColors.whiteColor,
+        fillColor: const Color(0xFFF4F5FA),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.grey.shade300),
+          borderSide: BorderSide.none,
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.grey.shade300),
+          borderSide: BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),

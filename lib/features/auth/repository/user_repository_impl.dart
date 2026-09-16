@@ -53,7 +53,9 @@ class AuthRepositoryImpl implements AuthRepository {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
       return null; // success
     } on FirebaseAuthException catch (e) {
-      return e.message;
+      return e.message ?? 'Unable to sign in (${e.code}).';
+    } catch (e) {
+      return 'Unable to sign in: $e';
     }
   }
 }

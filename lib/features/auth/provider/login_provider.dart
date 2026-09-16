@@ -32,14 +32,11 @@ class LoginNotifier extends ChangeNotifier {
 
     setLoading(true);
 
-    final repository = ref.read(authRepositoryProvider);
-    final result = await repository.signIn(
-      email: email,
-      password: password,
-    );
-
-    setLoading(false);
-    return result;
+    try {
+      final repository = ref.read(authRepositoryProvider);
+      return await repository.signIn(email: email, password: password);
+    } finally {
+      setLoading(false);
+    }
   }
 }
-
